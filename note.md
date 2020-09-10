@@ -20,9 +20,31 @@
   为了交互对象之间的松耦合设计而努力
 
 UML--unified modeling language(统一建模语言)
-Dependency  依赖：使用
-Association 关联
-Generalization 泛化：继承
+Dependency  依赖：使用  只要类中用到了对方就存在依赖关系
+Association 关联：如果一个类使用了另一个类 那么他们就是关联关系 关联关系是一种特殊的依赖关系 关联关系具有指向性，多重性
+Generalization 泛化：继承  是依赖关系中的一种特殊情况
 Realization 实现
-Aggregation 聚合:A类里有一个成员变量B类，B类是通过set方法进行传递的就认为A类聚合了B类
-Composite   组合
+Aggregation 聚合:A类里有一个成员变量B类，B类是通过set方法进行传递的就认为A类聚合了B类 A的产生B并不一定会产生，A消亡并不会引起B的消亡，即A与B可以分离
+Composite   组合：A类里有一个成员变量B类，A的产生B一定会产生，A消亡会引起B的消亡 同生共死
+
+设计模式
+  单例模式：即采取一定的方法保证整个软件系统中，对某个类只能存在一个对象实例，并且该类只提供一个取得对象实例的方法（这种方法一般都是静态方法）。
+    1.饿汉式（静态常量）
+      步骤：1）构造器私有化（防止使用new关键字创建对象）
+           2）在类的内部创建对象
+           3）向外暴露一个静态的公共方法用于返回该类的对象实例。getInstance
+           public class A{
+           private A(){}
+           private final static A instance = new A();
+           public A getInstance(){
+           return instance;
+           }
+           }
+    
+  
+  
+  
+  
+  
+  
+  
