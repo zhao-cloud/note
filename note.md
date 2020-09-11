@@ -36,15 +36,110 @@ Composite   组合：A类里有一个成员变量B类，A的产生B一定会产�
            public class A{
            private A(){}
            private final static A instance = new A();
-           public A getInstance(){
+           public static A getInstance(){
            return instance;
+              }
            }
+           缺点：类加载的时候就创建，没有懒加载，造成内存的浪费
+     2.饿汉式（静态代码块）
+          public class A{
+           private A(){}
+           static{//在静态代码块中，创建实例对象
+              instance = new A();
            }
-    
+           private static A instance;
+           public static A getInstance(){
+           return instance;
+              }
+           }
+           缺点：类加载的时候就创建，没有懒加载，造成内存的浪费
+      3.懒汉式（线程不安全）
+          public class A{
+             private static A instance;
+             private A(){}
+             //提供一个静态公有方法，当使用到该方法时，才去创建instance
+             //即懒汉式
+             public static A getInstance(){
+                if(instance == null){
+                    instance = new A();
+                }
+                return instance;
+                }
+           }
+           优点：可以实现懒加载方式
+           缺点：线程不安全，实际开发中不能使用该方式，有潜在的风险
+      4.懒汉式（线程安全，同步方法）
+          public class A{
+            private static A instance;
+            private A(){}
+            //加入同步代码，解决线程不安全问题
+             public static sychronized A getInstance(){
+                if(instance == null){
+                    instance = new A();
+                }
+                return instance;
+                }
+           }
+           优点：可以实现懒加载方式,线程安全
+           缺点：每次获取实例都要进行线程同步，效率地下。实际开发中不推荐使用该方法
+       5.双重检查（推荐使用）
+          public class A{
+            //volatitle可以使修改立即生效到内存，是一个轻量级的同步锁
+            private static volatitle A instance;
+            private A(){}
+            //双重检查
+             public static A getInstance(){
+                if(instance == null){
+                    syncronized(A.class){
+                        if(instance == null){
+                            instance = new A();
+                         }
+                    }
+                }
+                return instance;
+                }
+           }
+        6.静态内部类（当类加载的时候，静态内部类不会被加载，当使用静态内部类时会进行线程安全的加载,推荐使用）
+          public class A{
+            private static A instance;
+            private A(){}
+            private static class AInstance{
+              private static final A INSTANCE = new A();
+            }
+             public static A getInstance(){
+                return AInstance.INSTANCE;
+             }
+           }
+        7.枚举（推荐使用）
+          enum A{
+              INSTANCE;
+              public void sayOk(){
+                system.out.println("ok...");
+              }
+          }
+          优点：借助JDK1.5添加的枚举来实现单例。不仅能避免线程同步问题，而且还能防止反序列化重新创建对象。
+          
+  简单工厂模式
   
   
   
   
-  
-  
-  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
