@@ -1,5 +1,5 @@
 设计模式遵循的7大原则
-1.单一职责原则
+1. 单一职责原则
   一个类只应该负责一个职责，如果A类负责两个不同的职责：职责1，职责2。当职责1需求变更而改变A时，可能造成职责2的执行错误，所以需要将A类的粒度分解为A1,A2
 2.接口隔离原则
   A类通过接口interface依赖（使用）B类（B类实现了interface），但是并不是使用interface中所有的抽象方法，需要将interface拆开成使用的方法interface1 和 未使用的方法interface2 然后B类实现   interface1. 总之我们希望A类通过接口使用B类时，interface是最小的
@@ -124,9 +124,61 @@ Composite   组合：A类里有一个成员变量B类，A的产生B一定会产�
       定义了一个创建对象的抽象方法，由子类决定要实例化的的类。工厂方法模式将对象实例化推迟到子类。即将项目的实例化工程抽象成抽象方法，在不同的子类中具体实现。
   抽象工厂模式
       定义了一个interface用于创建相关或有依赖关系的对象簇，而无需指明具体的类。
-  
-  
-  
+  原型模式
+      用原型实例指定创建种类，并且通过拷贝这些原型，创建新的对象。原型模式是一种创建型设计模式，允许一个对象再创建另一个可定制的对象，无需知道创建细节
+      工作原理：通过一个原型对象传给那个要发动创建的对象，这个要发动创建的对象通过请求原型对象拷贝他们自己来实现创建，即 对象.clone()
+      深拷贝：1.重写clone方法实现深拷贝  2.通过对象序列化实现深拷贝（推荐）
+      序列化实现demo：
+        public class A implement CloneAble,serializable{
+          private int a;
+          private String b;
+          private C c;
+          
+          //浅拷贝
+          @override
+          public Object clone{
+            A aa= null;
+            try{
+              aa = (A)super.clone();
+            }catch(Exception e){
+              e.printStackTrace();
+            }
+          }
+          
+          //深拷贝
+          public A deepCopy(){
+            ByteArrayOutputStream bos = null;
+            ObjectOutputStream oos = null;
+            ByteArrayInputStream bis = null;
+            ObjectInputStream ois = null;
+            try {
+              //序列化
+              bos = new ByteArrayOutputStream();
+              oos = new ObjectOutputStream(bos);
+              //将当前对象以对象流的方式输出
+              oos.writeObject(this);
+              //反序列化
+              bis = new ByteArrayInputStream(bos.toByteArray());
+              ois = new ObjectInputStream(bis);
+              B copyObj = (B)ois.readObject();
+              return copyObj;
+            } catch(Exception e){
+              e.printStackTrace();
+              return null;
+            }finally{
+              try{
+              bos.close();
+              oos.close();
+              bis.close();
+              ois.close();
+              }catch(Exception e2){
+              e2.printStackTrace();
+              }
+            }
+          }
+        }
+  建造者模式（build pattern）
+      又名生成器模式,是一种对象构建模式。它可以将复杂对象的建造过程抽象出来（抽象类别），使这个抽象过程的不同实现方法可以构造出不同表现（属性）的对象。建造者模式是一步一步创建一个复杂的对象，他允许用户只通过指定复杂对象的类型和内容就可以构建他们，用户不需要知道内部的具体构建细节。
   
 
 
