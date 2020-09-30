@@ -211,7 +211,28 @@ Composite   组合：A类里有一个成员变量B类，A的产生B一定会产�
                 代理类所在包：java.lang.reflect.Proxy
                 JDK实现代理只需要使用newProxyInstance方法，但是该方法需要接受三个参数，完整的是：
                     static Object newProxyInstance(ClassLoader loader,Class<?>[] interfaces,InvocationHandler h)
- 
+         Cglib代理模式，静态代理何JDK代理模式都要求目标对象实现一个接口，但是有的时候目标对象只是一个单独的对象，并没有任何的接口，这个时候可以使用目标对象子类来实现代理-这就是Cglib代理。Cglib代理也叫子类代理，它是在内存中构建一个子类对象从而实现对目标对象功能扩展，有些书也将Cglib代理归属到动态代理。Cglib是一个强大的高性能的代码生成包，它可以在运行期扩展java类与实现java接口，它广泛的被许多aop框架使用，例如srping aop，实现方法拦截。在aop变成中如何选择代理模式：1.目标对象需要实现接口，用JDK代理 2.目标对象不需要实现接口，用Cglib代理。Cglib包的底层时通过使用字节码处理框架ASM来转换字节码并生成新的类。注意Cglib代理不能代理final修饰的类，目标对象的方法如果为final/static，那么就不会被拦截，即不会执行目标对象的额外业务方法
+    模板方法模式（Template Method Pattern）--行为型模式
+        模板方法模式又叫模板模式(Template Pattern)，在一个抽象类公开定义了执行它的方法的模板。它的子类可以按需要重写方法实现，但调用将以抽象类中定义的方式进行。简单的说，模板方法模式定义一个操作中的算法股价，而将一些步骤延迟到子类中，使得子类可以不改变一个算法结构，就可以重定义该算法的某些特定步骤。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
